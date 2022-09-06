@@ -1,22 +1,35 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom';
 import Api from '../../api/index';
+import CharacterFilter from '../CharacterFilter';
 
 function CharacterCart(props){
      const characters = props.characters
      const [characterId, setCharacterId] = useState('');
      const [characterListData, setCharacterListData] = useState([]);
      const [breakEffect, setBreak] = useState(false);
+     const [state, setState] = useState({
+      characterList: characterListData,
+      filters: new Set(),
+    })
+
+    
+     
+     const CATEGORIES = [
+      "Dead", 
+      "Alive",
+      "unknown" 
+    ]
 
      let regex = /\d+/;
 
      const urlParse = () => {
-        let url = '';
-    
-        for(let i in characters) {
-          url += i.match(regex)[0] + ',';
-        }
-        setCharacterId(url);
+      let url = '';
+  
+      for(let i in characters) {
+        url += i.match(regex)[0] + ',';
+      }
+      setCharacterId(url);
     };
 
      useEffect(() => {
@@ -60,8 +73,40 @@ function CharacterCart(props){
         setCharacterListData(sorted);
       }
 
+      const handleFilterChange = useCallback(event => {
+        setState(previousState => {
+          let filters = new Set(previousState.filters)
+          let characterList = characterListData
+          if (event.target.checked) {
+            filters.add(event.target.value)
+          } else {
+            filters.delete(event.target.value)
+          }
+          console.log("filters.size",filters.size);
+
+          if (filters.size) {
+            characterList = characterListData.filter(character => {
+              return filters.has(character.status)
+            })
+
+            console.log("characterList",characterList);
+            setCharacterListData(characterList);
+          }
+
+          return {
+            filters,
+            characters,
+          }
+        })
+      }, [setState])
+
         return (
             <div className='row'>
+                <div>
+                     <CharacterFilter 
+                      categories={CATEGORIES}
+                      onFilterChange={handleFilterChange}/>
+                </div>
                 <select id='sortDropdown' onChange={handleChange}>
                     <option>Sort in Alphabetical Order</option>
                     <option value="asc">A-Z</option>
