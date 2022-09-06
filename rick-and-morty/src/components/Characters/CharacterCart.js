@@ -82,14 +82,14 @@ function CharacterCart(props){
           } else {
             filters.delete(event.target.value)
           }
-          console.log("filters.size",filters.size);
+          // console.log("filters.size",filters.size);
 
           if (filters.size) {
             characterList = characterListData.filter(character => {
               return filters.has(character.status)
             })
 
-            console.log("characterList",characterList);
+            // console.log("characterList",characterList);
             setCharacterListData(characterList);
           }
 
