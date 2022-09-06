@@ -5,17 +5,16 @@ import axios from 'axios';
 
 export default function Home(){
     const [episodeData, setEpisodeData] = useState([]);
+    const api = new Api();      
 
     useEffect(() => {
-        const api = new Api();      
         const fetchData = async () => {
             api.getEpisodes().then(resp => {
                 setEpisodeData(resp.data.results);
-
             }); 
         };
         fetchData();
-      });
+      },[]);
     return (
         <div className='container episodes'>
         <div className='row'>{

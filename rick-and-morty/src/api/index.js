@@ -26,8 +26,8 @@ export default class Api {
         return this.getDatas(endPoint)
     }
 
-    getCharacter(endPoint) {
-        return this.getDatas(endPoint);
+    getEpisodeCharacters(characterId) {
+        return this.getDatas('https://rickandmortyapi.com/api/character/' + characterId);
     }
 
    

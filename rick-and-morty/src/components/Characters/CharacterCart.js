@@ -1,45 +1,53 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react'
+// import { Link } from 'react-router-dom';
 import Api from '../../api/index';
 
-export default class CharacterCart extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            episodeCharacter: this.props.characters,
-            singleCharacter:[]
-        };
-        this.api = new Api();
-    }
-    // componentDidMount(){
-    //   this.state.episodeCharacter?.map(characterUrl => {
-    //         this.api.getCharacter(characterUrl).then(resp => {
-    //             this.setState({
-    //                 singleCharacter: resp.data
-    //             });
-    //         });
-    //     })
+function CharacterCart(props){
+     const characters = props.characters
+     const [informations, setInformations] = useState('');
+     const [characterListData, setCharacterListData] = useState([]);
 
-    // }
-  render() {
-    console.log(this.state.singleCharacter);
-    const singleCharacter = this.state.singleCharacter.map((item, i) => {
-        return item
-    });
+     let regex = /\d+/;
+
+    //  console.log(characters);
+     const urlParse = () => {
+        let url = '';
+    
+        for(let i in characters) {
+          url += i.match(regex)[0] + ',';
+        }
+        setInformations(url);
+    };
+
+     useEffect(() => {
+        const api = new Api();   
+        const fetchData = () => {
+            api.getEpisodeCharacters(informations).then(resp => {
+                setCharacterListData(resp.data);
+            }); 
+        };
+        urlParse();
+        fetchData();        
+      });
     return (
-            <div className='col-md-4 '>
-                {singleCharacter}
-                {/* <Link to={"/episode/" + episode.id }>
-                    <div className='episode-cart'>
-                        <img src={isSeasonOne ? "assets/cover-season-one.jpg" : "assets/cover-season-two.jpg"} className='img-fluid' alt={episode.name}/>
-                        <div className='info-box'>
-                            <p className='name'>{episode.name}</p>
-                            <p className='episode'>{episode.episode}</p>
+            <div className='container'>
+                <div className='row'>
+                {Array.isArray(characterListData)
+                    ? characterListData.map((data,index) => (
+                        <div className='col-md-3' key={index}>
+                            <img src={data.image} alt={data.name}/>
+                        <h2>
+                            {data.name} 
+                        </h2>
+                        <p>{data.status}</p>
                         </div>
-                    </div>
-                </Link> */}
+                    ))
+                    : null}
+                </div>
+                
             </div>
         
     )
-  }
 }
+
+export default CharacterCart;
