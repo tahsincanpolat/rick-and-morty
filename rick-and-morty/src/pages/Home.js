@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Api from '../api';
 import EpisodeCart from '../components/Episodes/EpisodeCart';
-import axios from 'axios';
 
 export default function Home(){
     const [episodeData, setEpisodeData] = useState([]);
     const api = new Api();      
-
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchData = () => {
             api.getEpisodes().then(resp => {
                 setEpisodeData(resp.data.results);
             }); 

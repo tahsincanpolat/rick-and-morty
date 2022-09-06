@@ -1,5 +1,6 @@
 import React from 'react'
 import {BrowserRouter as Router, Route,Routes} from "react-router-dom";
+import CharacterDetail from './pages/CharacterDetail';
 import EpisodeDetail from './pages/EpisodeDetail';
 import Home from './pages/Home';
 import './styles/app.scss';
@@ -11,9 +12,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />}></Route>
               <Route path="/episode/:episodeId" element={<EpisodeDetail />}></Route>
-              {/* <Route exact path="/detail" component={Error}/>
-              <Route path="/episode/:episodeId" component={EpisodeDetail}/>
-              <Route path="/error" component={Error}/> */}
+              <Route path="/character/:characterId" element={<CharacterDetail />}></Route>
             </Routes>
           </div>
       </Router>

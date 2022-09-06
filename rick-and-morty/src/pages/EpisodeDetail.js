@@ -7,7 +7,7 @@ function EpisodeDetail() {
     const {episodeId} = useParams();
     const [episodeDetailData, setEpisodeDetailData] = useState([]);
 
-    useEffect(() => {
+    useEffect(()=> {
         const api = new Api();      
         const fetchData = async () => {
             await api.getSingleEpisode(episodeId).then(resp => {
@@ -15,7 +15,10 @@ function EpisodeDetail() {
             });
         };
         fetchData();
+        
       },[]);
+
+     
     return (  
         <div className='container episodes'>
             <p> {  episodeDetailData.name } </p>
@@ -23,6 +26,7 @@ function EpisodeDetail() {
             {       
                 <CharacterCart characters={ episodeDetailData.characters}/>
             } 
+            
             </div>
         </div>
     )
