@@ -7,14 +7,13 @@ export default function Home(){
     const [episodeData, setEpisodeData] = useState([]);
 
     useEffect(() => {
+        const api = new Api();      
         const fetchData = async () => {
-          const response = await axios.get(
-            `https://rickandmortyapi.com/api/episode`
-          );
-    
-          setEpisodeData(response.data.results);
+            api.getEpisodes().then(resp => {
+                setEpisodeData(resp.data.results);
+
+            }); 
         };
-    
         fetchData();
       });
     return (
