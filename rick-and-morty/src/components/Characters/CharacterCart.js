@@ -8,6 +8,8 @@ function CharacterCart(props){
      const [characterId, setCharacterId] = useState('');
      const [characterListData, setCharacterListData] = useState([]);
      const [breakEffect, setBreak] = useState(false);
+     const [searchInput, setSearchInput] = useState('');
+     const [filteredResults, setFilteredResults] = useState([]);
      const [state, setState] = useState({
       characterList: characterListData,
       filters: new Set(),
@@ -24,13 +26,13 @@ function CharacterCart(props){
      let regex = /\d+/;
 
      const urlParse = () => {
-      let url = '';
+        let url = '';
   
-      for(let i in characters) {
-        url += i.match(regex)[0] + ',';
-      }
-      setCharacterId(url);
-    };
+        for(let i in characters) {
+          url += i.match(regex)[0] + ',';
+        }
+        setCharacterId(url);
+     };
 
      useEffect(() => {
         setBreak(false)
@@ -73,6 +75,22 @@ function CharacterCart(props){
         setCharacterListData(sorted);
       }
 
+      const searchItems = (searchValue) => {
+       const data = characterListData;
+       setFilteredResults(data)
+       setSearchInput(searchValue)
+       if (searchInput !== '') {
+            const filteredData = data.filter((item) => {
+                return Object.values(item.name).join('').toLowerCase().includes(searchValue.toLowerCase())
+            })
+            console.log(filteredData);
+            setFilteredResults(filteredData)
+        }
+        else{
+          setFilteredResults(data)
+        }
+    }
+
       const handleFilterChange = useCallback(event => {
         setState(previousState => {
           let filters = new Set(previousState.filters)
@@ -109,7 +127,14 @@ function CharacterCart(props){
                         onFilterChange={handleFilterChange}/>
                   </div>
               </div>
-              <div className='row'>
+              <div className='row' style={searchInput.length <= 0 ? {width:'100%'} : {width:'100%'}}>
+                <div className='search-sort'>
+                <div className='search'> 
+                    <input icon='search'
+                      placeholder='Search Characters Name...'
+                      onChange={(e) => searchItems(e.target.value)}
+                    />
+                  </div>
                   <div className='sort'>
                     <select id='sortDropdown' onChange={handleChange}>
                         <option>Sort in Alphabetical Order</option>
@@ -117,7 +142,30 @@ function CharacterCart(props){
                         <option value="desc">Z-A</option>
                     </select>
                   </div>
-                {Array.isArray(characterListData)
+                </div>
+                {filteredResults.length>0 ? (
+                            Array.isArray(filteredResults)
+                            ? filteredResults.map((character,index) => (
+                                    <div className='col-md-3 character-cart' key={index}>
+                                        <Link to={"/character/" + character.id }>
+                                            <img className='img-fluid' src={character.image} alt={character.name}/>
+                                            <h5 className='character-name'>{character.name}</h5>
+                                            <div className='d-flex justify-content-center'>
+                                            <span className='character-status'>{character.status}</span>
+                                            <span className='dot-status' style={{backgroundColor:
+                                                          character.status === 'Alive'
+                                                          ? 'green'
+                                                          : character.status === 'Dead'
+                                                          ? 'red'
+                                                          : '#9f9f9f',
+                                                          }} />
+                                            </div>
+                                        </Link>
+                                    </div>
+                            ))
+                            : null)
+                  : (
+                  Array.isArray(characterListData)
                     ? characterListData.map((character,index) => (
                             <div className='col-md-3 character-cart' key={index}>
                                 <Link to={"/character/" + character.id }>
@@ -133,11 +181,12 @@ function CharacterCart(props){
                                                   : '#9f9f9f',
                                                   }} />
                                     </div>
-                                   
                                 </Link>
                             </div>
                     ))
-                    : null}
+                    : null
+                )}
+                
                    
             </div> 
           </div>
