@@ -14,8 +14,6 @@ function CharacterCart(props){
       characterList: characterListData,
       filters: new Set(),
     })
-
-    
      
      const CATEGORIES = [
       "Dead", 
@@ -58,22 +56,28 @@ function CharacterCart(props){
             sortDescending();
         }
       }
+      //sort ascending character name
 
       const sortAscending = () => {
-        characterListData.sort((a, b) => (a.name > b.name) ? 1 : -1)
-        const sorted = [...characterListData].sort((a, b) => {
+        const data = characterListData;
+        data.sort((a, b) => (a.name > b.name) ? 1 : -1)
+        const sorted = [...data].sort((a, b) => {
             return b.name - a.name;
           });
-        setCharacterListData(sorted);
+          setFilteredResults(sorted)
       }
+      //sort descending character name
 
       const sortDescending = () => {
-        characterListData.sort((a, b) => (a.name < b.name) ? 1 : -1)
-        const sorted = [...characterListData].sort((a, b) => {
+        const data = characterListData;
+        data.sort((a, b) => (a.name < b.name) ? 1 : -1)
+        const sorted = [...data].sort((a, b) => {
             return b.name - a.name;
           });
-        setCharacterListData(sorted);
+          setFilteredResults(sorted)
       }
+
+      //Search character name
 
       const searchItems = (searchValue) => {
        const data = characterListData;
@@ -83,7 +87,7 @@ function CharacterCart(props){
             const filteredData = data.filter((item) => {
                 return Object.values(item.name).join('').toLowerCase().includes(searchValue.toLowerCase())
             })
-            console.log(filteredData);
+            // console.log(filteredData);
             setFilteredResults(filteredData)
         }
         else{
@@ -91,26 +95,30 @@ function CharacterCart(props){
         }
     }
 
+      //Filter character status
+
       const handleFilterChange = useCallback(event => {
+        let characterList = characterListData
+        const data = characterListData;
+
         setState(previousState => {
           let filters = new Set(previousState.filters)
-          let characterList = characterListData
+          setFilteredResults(data)
           if (event.target.checked) {
             filters.add(event.target.value)
           } else {
             filters.delete(event.target.value)
           }
           // console.log("filters.size",filters.size);
+          // console.log("characterList",characterList);
 
           if (filters.size) {
-            characterList = characterListData.filter(character => {
+            characterList = data.filter(character => {
               return filters.has(character.status)
             })
 
-            // console.log("characterList",characterList);
-            setCharacterListData(characterList);
           }
-
+          setFilteredResults(characterList)
           return {
             filters,
             characters,
