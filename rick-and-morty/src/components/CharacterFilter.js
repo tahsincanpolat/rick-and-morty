@@ -8,13 +8,11 @@ function CharacterFilter(props) {
     
     return (
       <section 
-        className="filters"
-        aria-labelledby="filters-header">
+        className="filters">
+        <ul>
         <header id="filters-header">
           {'Filters'}
         </header>
-        
-        <ul>
           {categories.map(category => (
             <li key={category}>
               <label>

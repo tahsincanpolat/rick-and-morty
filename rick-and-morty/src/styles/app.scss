@@ -1,6 +1,28 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
+$background: #f6f6f6;
+$white: #ffffff;
+$red: #EC001A;
+$lightGray: #f5f5f5;
+$dark: #333333;
+$black: #2e2e2e;
 
+body{
+    background: radial-gradient(circle, rgba(245,245,245,1) 0%, rgba(255,255,255,1) 100%); 
+}
+h2{
+    color: $dark ;
+    margin-bottom: 30px;
+    font-size: 38px;
+}
 
+a{
+    color:$lightGray;
+    text-decoration: none;
+}
+
+.header{
+    background-color: $lightGray;
+}
 .episodes {
     text-align: center;
     margin:50px auto;
@@ -9,8 +31,9 @@
         text-align: center;
         margin-bottom: 80px;
         img{
-            border-radius: 7px;
+            border-radius: 10px;
             width: 100%;
+            box-shadow: 0 10px 20px 1px $dark;
         }
         .info-box{
             position: absolute;
@@ -27,7 +50,7 @@
             padding: 5px 5px 5px 20px;
             @media screen and (max-width: 480px) {
                 width: 250px;
-              }
+            }
             
             .name{
                 margin: 0;
@@ -38,21 +61,127 @@
                 font-size: 15px;
             }
         }
+        &:hover{
+            img{
+                border-radius: 10px;
+                width: 100%;
+                box-shadow: 0 20px 30px 1px $dark;
+            }
+            .info-box{
+                opacity: 1;
+            }
+        }
     }
 }
-
-.filters {
-    border: 1px solid black;
-    padding: 10px;
-    position: sticky;
-    top: 50px;
+.character-list{
+    display: flex;
+    justify-content: center;
+    @media screen and (max-width: 600px) {
+        display: block !important;
+    }
+    .filter{
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: row;
+        align-content: center;
+        margin:20px 0px;
+        @media screen and (max-width: 600px) {
+           justify-content: center;
+        }
+        .filters {
+            width:250px;
+            height: 300px;
+            box-shadow: 0 10px 10px 1px $dark;
+            border: 1px solid black;
+            border-radius: 5px;
+            padding: 10px;
+            position: sticky;
+            top: 50px;
+            display: flex;
+            justify-content: space-between;
+            margin: 0px 20px;
+            background-color: $dark;
+            header {
+              font-weight: 400;
+            }
+            ul{
+                list-style-type:none;
+                padding-left: 0 !important;
+                color: $white;
+                header{
+                    margin-bottom: 5px;
+                    font-size: 22px;
+                    font-weight: 500;
+                    text-align: left;
+                    margin-bottom: 10px;
+                }
+               
+                li{
+                    text-align: left;
+                    margin-bottom: 10px;
+                    input{
+                        margin: 5px;
+                    }
+                }
+            }
+        }
+    }
+    .sort{
+        text-align: right;
+        margin-bottom: 20px;
+        @media screen and (max-width: 600px) {
+            text-align: center;
+        }
+        select{
+            color: $white;
+            background-color: $dark;
+            padding: 10px;
+            border-radius: 5px;
     
-    header {
-      font-weight: 400;
+        }
     }
-    ul{
-        list-style-type:none;
+
+}
+
+.character-cart{
+    box-shadow: 0 10px 10px 1px $dark;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: $dark;
+    width: 22%;
+    margin: 0px 15px;
+    margin-bottom: 30px;
+    padding: 20px 10px;
+    @media screen and (max-width: 600px) {
+        width: 100%;
     }
-  }
+    @media screen and (max-width: 370px) {
+        width: 80%;
+    }
+    img{
+        margin-bottom: 20px;
+        border-radius: 20px;
+        box-shadow: 0 2px 2px 1px $white;
+    }
+    .character-name{
+        font-size: 20px;
+        color: $lightGray;
+    }
+    .character-status{
+        font-size: 18px;
+        color: $lightGray;
+    }
+    .dot-status {
+        width: 10px;
+        height: 10px;
+        background-color: #000;
+        border-radius: 50%;
+        display: block;
+        margin: 9px;
+      }
+
+}
+
+
   
   

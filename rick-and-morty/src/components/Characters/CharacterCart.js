@@ -101,30 +101,47 @@ function CharacterCart(props){
       }, [setState])
 
         return (
-            <div className='row'>
+          <div className='character-list'>
+              <div className='filter pt-5'>
                 <div>
-                     <CharacterFilter 
-                      categories={CATEGORIES}
-                      onFilterChange={handleFilterChange}/>
-                </div>
-                <select id='sortDropdown' onChange={handleChange}>
-                    <option>Sort in Alphabetical Order</option>
-                    <option value="asc">A-Z</option>
-                    <option value="desc">Z-A</option>
-                </select>
+                      <CharacterFilter 
+                        categories={CATEGORIES}
+                        onFilterChange={handleFilterChange}/>
+                  </div>
+              </div>
+              <div className='row'>
+                  <div className='sort'>
+                    <select id='sortDropdown' onChange={handleChange}>
+                        <option>Sort in Alphabetical Order</option>
+                        <option value="asc">A-Z</option>
+                        <option value="desc">Z-A</option>
+                    </select>
+                  </div>
                 {Array.isArray(characterListData)
                     ? characterListData.map((character,index) => (
-                            <div className='col-md-3' key={index}>
-                                <Link  to={"/character/" + character.id }>
+                            <div className='col-md-3 character-cart' key={index}>
+                                <Link to={"/character/" + character.id }>
                                     <img className='img-fluid' src={character.image} alt={character.name}/>
-                                    <h2>{character.name}</h2>
-                                    <p>{character.status}</p>
+                                    <h5 className='character-name'>{character.name}</h5>
+                                    <div className='d-flex justify-content-center'>
+                                    <span className='character-status'>{character.status}</span>
+                                    <span className='dot-status' style={{backgroundColor:
+                                                  character.status === 'Alive'
+                                                  ? 'green'
+                                                  : character.status === 'Dead'
+                                                  ? 'red'
+                                                  : '#9f9f9f',
+                                                  }} />
+                                    </div>
+                                   
                                 </Link>
                             </div>
                     ))
                     : null}
                    
             </div> 
+          </div>
+            
                              
     )
 }

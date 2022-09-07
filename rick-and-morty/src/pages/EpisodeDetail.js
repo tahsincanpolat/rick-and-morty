@@ -20,13 +20,12 @@ function EpisodeDetail() {
 
      
     return (  
-        <div className='container episodes'>
-            <p> {  episodeDetailData.name } </p>
+        <div className='container-fluid episodes'>
+            <h2> Episode Name: {  episodeDetailData.name } </h2>
             <div className='row'>
             {       
                 <CharacterCart characters={ episodeDetailData.characters}/>
             } 
-            
             </div>
         </div>
     )

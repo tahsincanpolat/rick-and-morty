@@ -15,7 +15,9 @@ export default function Home(){
       },[]);
     return (
         <div className='container episodes'>
-        <div className='row'>{
+        <div className='row'>
+            <h2>Episodes</h2>
+            {
             episodeData.map((episode,index) => {
                 return( 
                 <EpisodeCart data={episode} key={index}/>
